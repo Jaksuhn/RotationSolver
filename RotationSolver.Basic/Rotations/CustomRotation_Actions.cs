@@ -29,6 +29,17 @@ public abstract partial class CustomRotation
     /// </summary>
     public static IBaseAction Addle { get; } = new RoleAction(ActionID.Addle, new JobRole[] { JobRole.RangedMagical }, ActionOption.Defense)
     {
+        ChoiceTarget = (Targets, mustUse) =>
+        {
+            Targets = Targets.Where(b => b.IsTargetable && b.IsCasting && (b.TotalCastTime - b.CurrentCastTime < (WeaponTotal + WeaponRemain + Ping))).ToArray();
+
+            if (Targets.Any())
+            {
+                return Targets.OrderBy(ObjectHelper.IsTopPriorityHostile).First();
+            }
+
+            return null;
+        },
         ActionCheck = (b, m) => !b.HasStatus(false, StatusID.Addle),
     };
 
