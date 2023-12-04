@@ -401,27 +401,30 @@ internal static partial class TargetUpdater
     }
 
     static SortedDictionary<uint, Vector3> _locations = new();
-    private static void MaintainDeathPeople(ref IEnumerable<BattleChara> deathAll, ref IEnumerable<BattleChara> deathParty)
+    private static void MaintainDeathPeople(ref IEnumerable<BattleChara> allDeadChars, ref IEnumerable<BattleChara> partyDeadChars)
     {
+        if (!allDeadChars.Any() && !partyDeadChars.Any())
+        {
+            // Both collections are empty, nothing to maintain
+            return;
+        }
+
         SortedDictionary<uint, Vector3> locs = new();
-        foreach (var item in deathAll)
+
+        void ProcessCollection(IEnumerable<BattleChara> collection)
         {
-            if (item is null) continue;
-            locs[item.ObjectId] = item.Position;
+            foreach (var item in collection ?? Enumerable.Empty<BattleChara>())
+            {
+                locs[item.ObjectId] = item?.Position ?? Vector3.Zero;
+            }
         }
-        foreach (var item in deathParty)
-        {
-            if (item is null) continue;
-            locs[item.ObjectId] = item.Position;
-        }
-        if (deathAll is not null)
-        {
-            deathAll = FilterForDeath(deathAll);
-        }
-        if (deathParty is not null)
-        {
-            deathParty = FilterForDeath(deathParty);
-        }
+
+        ProcessCollection(allDeadChars);
+        ProcessCollection(partyDeadChars);
+
+        allDeadChars = FilterForDeath(allDeadChars);
+        partyDeadChars = FilterForDeath(partyDeadChars);
+
         _locations = locs;
     }
 
