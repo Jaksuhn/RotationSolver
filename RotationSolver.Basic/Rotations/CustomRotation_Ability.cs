@@ -434,35 +434,4 @@ public abstract partial class CustomRotation
         if (LostAssassination.CanUse(out act)) return true;
         return false;
     }
-
-    /// <summary>
-    /// The ability that can be used to prevent negative effects of boss attacks.
-    /// </summary>
-    /// <param name="act">Result action.</param>
-    /// <returns>Can we use it.</returns>
-    private bool ShouldUseVril(IEnumerable<BattleChara> hostilesCastingAOE)
-    {
-        // Check if the current instance is 20049 (Emanation Extreme)
-        if (DataCenter.CurrentInstanceID != 20049)
-        {
-            return false;
-        }
-
-        // Check if the player does not have the Vril status (Status ID 1290)
-        if (!PlayerHasStatus(1290))
-        {
-            foreach (var enemy in hostilesCastingST)
-            {
-                // Check if Lakshmi is casting one of the specified actions
-                if (enemy.DataID == 7310 && enemy.IsCasting &&
-                    (enemy.CurrentCastActionId == 8521 || // Divine Denial
-                     enemy.CurrentCastActionId == 8523 || // Divine Desire
-                     enemy.CurrentCastActionId == 8522))  // Divine Doubt
-                {
-                    if (Vril.CanUse(out act)) return true;
-                }
-            }
-        }
-        return false;
-    }
 }
