@@ -173,7 +173,7 @@
   "UseAdditionalConditionsName": "Use additional conditions",
   "MistakeRatioName": "How likely is it that RS will click the wrong action.",
   "NotInCombatDelayName": "The range of random delay for Not In Combat.",
-  "UseWorkTaskName": "Use work task for acceleration.",
+  "UseWorkTaskName": "Use work task. (Experimental! Will cause crashes!!!)",
   "ToggleManualName": "Make /rotation Manual as a toggle command.",
   "ToggleAutoName": "Make /rotation Auto as a toggle command.",
   "SayHelloToAllName": "Say hello to all users of Rotation Solver.",
@@ -425,5 +425,14 @@
   "RotationSolver.Data.UiString.ConfigWindow_About_Compatibility_Mislead": "Misleading RS to make the right decision.",
   "RotationSolver.Data.UiString.ConfigWindow_About_Compatibility_Mistake": "Can't properly execute the behavior that RS wants to do.",
   "RotationSolver.Data.UiString.ConfigWindow_About_Compatibility_Crash": "Causes the game to crash.",
-  "RotationSolver.Data.UiString.ConfigWindow_About_ThanksToSupporters": "Many thanks to the sponsors."
+  "RotationSolver.Data.UiString.ConfigWindow_About_ThanksToSupporters": "Many thanks to the sponsors.",
+  "RotationSolver.Data.UiString.ConfigWindow_Rotation_Rating_Description": "Here are some rating methods to analysis this rotation. Most of these methods need your engagement.",
+  "RotationSolver.Data.UiString.ConfigWindow_Rotations_UserName": "User Name",
+  "RotationSolver.Data.UiString.ConfigWindow_Rotations_Repository": "Repository",
+  "RotationSolver.Data.UiString.ConfigWindow_Rotations_FileName": "File Name",
+  "ControlWindowNextSizeRatioName": "Next Action Size Ratio",
+  "ControlWindowGCDSizeName": "GCD icon size",
+  "ControlWindow0GCDSizeName": "oGCD icon size",
+  "ControlWindowLockBgName": "Locked Control Window's Background",
+  "ControlWindowUnlockBgName": "Unlocked Control Window's Background"
 }

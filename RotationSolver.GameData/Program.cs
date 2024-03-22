@@ -9,7 +9,7 @@ using RotationSolver.GameData.Getters.Actions;
 using System.Net;
 using System.Resources.NetStandard;
 
-var gameData = new GameData("C:\\Program Files (x86)\\SquareEnix\\FINAL FANTASY XIV - A Realm Reborn\\game\\sqpack", new LuminaOptions
+var gameData = new GameData(@"D:\FFXIV\Game\game\sqpack", new LuminaOptions
 {
     LoadMultithreaded = true,
     CacheFileResources = true,
@@ -18,7 +18,7 @@ var gameData = new GameData("C:\\Program Files (x86)\\SquareEnix\\FINAL FANTASY 
 });
 
 var dirInfo = new DirectoryInfo(typeof(Program).Assembly.Location);
-dirInfo = dirInfo.Parent!.Parent!.Parent!.Parent!.Parent!;
+dirInfo = dirInfo.Parent!.Parent!.Parent!.Parent!.Parent!.Parent!;
 
 using var res = new ResXResourceWriter(dirInfo.FullName + "\\RotationSolver.SourceGenerators\\Properties\\Resources.resx");
 
