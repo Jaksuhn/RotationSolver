@@ -408,5 +408,22 @@
   "RotationSolver.Data.UiString.ConfigWindow_DutyRotationDesc": "The duty rotation you chose, click to modify.",
   "RotationSolver.Data.UiString.AvariceWarning": "Avarice addon was not detected, please install it if you want to get the positional indicators for Rotation Solver!",
   "RotationSolver.Data.UiString.TextToTalkWarning": "TextToTalk addon was not detected, please install it to make Rotation Solver give audio notifications!",
-  "RotationSolver.Data.UiString.ActionSequencer_Load": "Load From folder."
+  "RotationSolver.Data.UiString.ActionSequencer_Load": "Load From folder.",
+  "StopCastingDelayName": "The range of random delay for stopping casting when the target is dead or immune to damage.",
+  "RotationSolver.Data.UiString.ConfigWindow_Basic_AnimationLockTime": "The Animation lock time from individual actions. Here is 0.6s for example.",
+  "KeyboardNoiseName": "Effect times",
+  "RotationSolver.Basic.Data.DescType.HealAreaGCD": "Heal Area GCD",
+  "RotationSolver.Basic.Data.DescType.HealAreaAbility": "Heal Area Ability",
+  "RotationSolver.Basic.Data.DescType.HealSingleGCD": "Heal Single GCD",
+  "RotationSolver.Basic.Data.DescType.HealSingleAbility": "Heal Single Ability",
+  "RotationSolver.Basic.Data.DescType.DefenseAreaGCD": "Defense Area GCD",
+  "RotationSolver.Basic.Data.DescType.DefenseAreaAbility": "Defense Area Ability",
+  "RotationSolver.Basic.Data.DescType.DefenseSingleAbility": "Defense Single Ability",
+  "RotationSolver.Basic.Data.DescType.SpeedAbility": "Speed Ability",
+  "RotationSolver.Data.UiString.ConfigWindow_About_Compatibility_Others": "Please don't relog without closing the game. Crashes may occur.",
+  "RotationSolver.Data.UiString.ConfigWindow_About_Compatibility_Description": "Literally, Rotation Solver helps you to choose the target and then click the action. So any plugin that changes these will affect its decision.\n\nHere is a list of known incompatible plugins:",
+  "RotationSolver.Data.UiString.ConfigWindow_About_Compatibility_Mislead": "Misleading RS to make the right decision.",
+  "RotationSolver.Data.UiString.ConfigWindow_About_Compatibility_Mistake": "Can't properly execute the behavior that RS wants to do.",
+  "RotationSolver.Data.UiString.ConfigWindow_About_Compatibility_Crash": "Causes the game to crash.",
+  "RotationSolver.Data.UiString.ConfigWindow_About_ThanksToSupporters": "Many thanks to the sponsors."
 }

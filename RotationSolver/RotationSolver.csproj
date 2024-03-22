@@ -59,4 +59,10 @@
 		<Using Include="ImGuiNET" />
 		<Using Include="Newtonsoft.Json" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="RotationSolver.yaml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
 </Project>
