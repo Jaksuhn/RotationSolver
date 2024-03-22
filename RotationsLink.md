@@ -15,7 +15,7 @@ Free rotations.
 ### Default Rotations
 
 ```
-https://github.com/ArchiDog1998/FFXIVRotations/releases/latest/download/DefaultRotations.dll
+https://github.com/LTS-FFXIV/LTSDefaults/releases/latest/download/DefaultRotations.dll
 ```
 
 The default rotation for all users. 

@@ -3,7 +3,11 @@
 /// <summary>
 /// Random delay the bool.
 /// </summary>
-public struct RandomDelay
+/// <remarks>
+/// Constructer.
+/// </remarks>
+/// <param name="getRange"></param>
+public struct RandomDelay(Func<(float min, float max)> getRange)
 {
     DateTime _startDelayTime = DateTime.Now;
     float _delayTime = -1;
@@ -14,19 +18,24 @@ public struct RandomDelay
     /// <summary>
     /// 
     /// </summary>
-    public Func<(float min, float max)> GetRange { get; init; } = null;
+    public readonly Func<(float min, float max)> GetRange => getRange;
 
     /// <summary>
-    /// Constructer.
+    /// The constructor for the config.
     /// </summary>
-    /// <param name="getRange"></param>
-    public RandomDelay(Func<(float min, float max)> getRange)
+    /// <param name="getRange">The way to get the config.</param>
+    public RandomDelay(Func<Vector2> getRange)
+        : this(() =>
+        {
+            var vec = getRange();
+            return (vec.X, vec.Y);
+        })
     {
-        GetRange = getRange;
+        
     }
 
     /// <summary>
-    /// Delay the bool.
+    /// Delay the bool to be true.
     /// </summary>
     /// <param name="originData"></param>
     /// <returns></returns>
@@ -59,5 +68,25 @@ public struct RandomDelay
         }
 
         return false;
+    }
+
+    /// <summary>
+    /// The delay to get the item.
+    /// </summary>
+    /// <typeparam name="T">the type of anything.</typeparam>
+    /// <param name="originData">original data.</param>
+    /// <returns>the value.</returns>
+    public T? Delay<T>(T? originData) where T : class
+    {
+        var b = originData != null;
+
+        if (Delay(b))
+        {
+            return originData;
+        }
+        else
+        {
+            return null;
+        }
     }
 }

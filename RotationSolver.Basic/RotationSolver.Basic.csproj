@@ -1,74 +1,88 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-	<PropertyGroup>
-		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-		<PackageIcon>Logo.png</PackageIcon>
-		<Description>A basic library for rotation development in FFXIV in RotationSolver.</Description>
-		<PackageId>RotationSolver.Basic</PackageId>
-		<Title>RotationSolver.Basic</Title>
-		<RepositoryUrl>https://github.com/Jaksuhn/RotationSolver/tree/main/RotationSolver.Basic</RepositoryUrl>
-		<PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
-		<PackageLicenseExpression>LGPL-3.0-or-later</PackageLicenseExpression>
-		<PackageTags>FFXIV, FF14, Dalamud, Rotation</PackageTags>
-		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<GenerateDocumentationFile>True</GenerateDocumentationFile>
-		<EnforceCodeStyleInBuild>False</EnforceCodeStyleInBuild>
-		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-		<ProduceReferenceAssembly>false</ProduceReferenceAssembly>
-		<EnableWindowsTargeting>true</EnableWindowsTargeting>
-		<UseWindowsForms>true</UseWindowsForms>
-		<Platforms>x64</Platforms>
-		<LangVersion>preview</LangVersion>
-	</PropertyGroup>
-	
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-	  <DebugType>full</DebugType>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-	  <DebugType>full</DebugType>
-	</PropertyGroup>
+  <PropertyGroup>
+	  <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	  <PackageIcon>Logo.png</PackageIcon>
+	  <Description>A basic library for rotation development in FFXIV in RotationSolver.</Description>
+	  <PackageId>RotationSolver.Basic</PackageId>
+	  <Title>RotationSolver.Basic</Title>
+	  <RepositoryUrl>https://github.com/ArchiDog1998/RotationSolver/tree/main/RotationSolver.Basic</RepositoryUrl>
+	  <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
+	  <PackageLicenseExpression>LGPL-3.0-or-later</PackageLicenseExpression>
+	  <PackageTags>FFXIV, FF14, Dalamud, Rotation</PackageTags>
+	  <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+	  <PackageReadmeFile>README.md</PackageReadmeFile>
+	  <GenerateDocumentationFile>True</GenerateDocumentationFile>
+	  <EnforceCodeStyleInBuild>False</EnforceCodeStyleInBuild>
+	  <DalamudLibPath>$(AppData)\XIVLauncher\addon\Hooks\dev\</DalamudLibPath>
+  </PropertyGroup>
+  <ItemGroup>
+	  <Reference Include="Dalamud">
+		  <HintPath>$(DalamudLibPath)Dalamud.dll</HintPath>
+		  <Private>False</Private>
+	  </Reference>
+	  <Reference Include="ImGui.NET">
+		  <HintPath>$(DalamudLibPath)ImGui.NET.dll</HintPath>
+		  <Private>False</Private>
+	  </Reference>
+	  <Reference Include="ImGuiScene">
+		  <HintPath>$(DalamudLibPath)ImGuiScene.dll</HintPath>
+		  <Private>False</Private>
+	  </Reference>
+	  <Reference Include="Lumina">
+		  <HintPath>$(DalamudLibPath)Lumina.dll</HintPath>
+		  <Private>False</Private>
+	  </Reference>
+	  <Reference Include="Lumina.Excel">
+		  <HintPath>$(DalamudLibPath)Lumina.Excel.dll</HintPath>
+		  <Private>False</Private>
+	  </Reference>
+	  <Reference Include="FFXIVClientStructs">
+		  <HintPath>$(DalamudLibPath)FFXIVClientStructs.dll</HintPath>
+		  <Private>False</Private>
+	  </Reference>
+	  <Reference Include="Newtonsoft.Json">
+		  <HintPath>$(DalamudLibPath)Newtonsoft.Json.dll</HintPath>
+		  <Private>False</Private>
+	  </Reference>
+	  
+	  <Using Include="System.ComponentModel" />
+	  <Using Include="Dalamud.Game.ClientState.JobGauge.Types" />
 
-	<PropertyGroup Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))'">
-		<DalamudLibPath>$(DALAMUD_HOME)/</DalamudLibPath>
-	</PropertyGroup>
+	  <Using Include="Dalamud.Game.ClientState.Objects.Types" />
 
-	<PropertyGroup Condition="'$(OS)' != 'Windows_NT' OR '$(CI)' == 'true'">
-		<DalamudLibPath>$(DALAMUD_HOME)/</DalamudLibPath>
-		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-	</PropertyGroup>
-	
-	<ItemGroup>
-		<Using Include="System.ComponentModel" />
-		<Using Include="Dalamud.Game.ClientState.JobGauge.Types" />
+	  <Using Include="RotationSolver.Basic" />
+	  <Using Include="RotationSolver.Basic.Actions" />
+	  <Using Include="RotationSolver.Basic.Attributes" />
+	  <Using Include="RotationSolver.Basic.Configuration.RotationConfig" />
+	  <Using Include="RotationSolver.Basic.Data" />
+	  <Using Include="RotationSolver.Basic.Helpers" />
+	  <Using Include="RotationSolver.Basic.Rotations" />
+	  <Using Include="RotationSolver.Basic.Rotations.Basic" />
+	  <Using Include="Dalamud.Game.ClientState.JobGauge.Enums" />
+	  <Using Include="Dalamud.Interface" />
+	  <Using Include="ImGuiNET" />
+	  <Using Include="Newtonsoft.Json" />
+	  
+	  <ProjectReference Include="..\ECommons\ECommons\ECommons.csproj">
+		  <PrivateAssets>all</PrivateAssets>
+	  </ProjectReference>
 
-		<Using Include="Dalamud.Game.ClientState.Objects.Types" />
+	  <ProjectReference Include="..\RotationSolver.SourceGenerators\RotationSolver.SourceGenerators.csproj" OutputItemType="Analyzer" ExcludeAssets="All" />
 
-		<Using Include="RotationSolver.Basic" />
-		<Using Include="RotationSolver.Basic.Actions" />
-		<Using Include="RotationSolver.Basic.Attributes" />
-		<Using Include="RotationSolver.Basic.Configuration.RotationConfig" />
-		<Using Include="RotationSolver.Basic.Data" />
-		<Using Include="RotationSolver.Basic.Helpers" />
-		<Using Include="RotationSolver.Basic.Rotations" />
-		<Using Include="RotationSolver.Basic.Rotations.Basic" />
+	  <ProjectReference Include="..\XIVPainter\XIVPainter\XIVPainter.csproj" />
 
-		<ProjectReference Include="..\ECommons\ECommons\ECommons.csproj">
-			<PrivateAssets>all</PrivateAssets>
-		</ProjectReference>
-
-		<None Include="..\COPYING.LESSER">
+	  <None Include="..\COPYING.LESSER">
 		<Pack>True</Pack>
 		<PackagePath>\</PackagePath>
-		</None>
-		<None Include="..\Images\Logo.png">
+      </None>
+      <None Include="..\Images\Logo.png">
 		<Pack>True</Pack>
 		<PackagePath>\</PackagePath>
-		</None>
-		<PackageReference Include="Svg" Version="3.4.4" />
-		<None Update="README.md">
+      </None>
+      <PackageReference Include="Svg" Version="3.4.4" />
+	  <None Update="README.md">
 		<Pack>True</Pack>
 		<PackagePath>\</PackagePath>
-		</None>
-	</ItemGroup>
+	  </None>
+  </ItemGroup>
 </Project>

@@ -1,103 +1,149 @@
-﻿using ECommons.ExcelServices;
+﻿using ECommons.DalamudServices;
+using ECommons.ExcelServices;
 using Lumina.Excel.GeneratedSheets;
 
 namespace RotationSolver.Basic.Rotations;
 
-/// <summary>
-/// The custom rotations.
-/// </summary>
-[RotationDesc(DescType.BurstActions)]
-public abstract partial class CustomRotation : ICustomRotation
+partial class CustomRotation : ICustomRotation
 {
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-    public abstract CombatType Type { get; }
+    private Job? _job = null;
 
-    public abstract Job[] Jobs { get; }
+    /// <inheritdoc/>
+    public Job Job => _job ??= this.GetType().GetCustomAttribute<JobsAttribute>()?.Jobs[0] ?? Job.ADV;
 
-    public abstract string GameVersion { get; }
+    private JobRole? _role = null;
 
-    public ClassJob ClassJob => Service.GetSheet<ClassJob>().GetRow((uint)Jobs[0]);
+    /// <inheritdoc/>
+    public JobRole Role  => _role ??= Svc.Data.GetExcelSheet<ClassJob>()!.GetRow((uint)Job)!.GetJobRole();
+    private string? _name = null;
 
-    public string Name => ClassJob.Abbreviation + " - " + ClassJob.Name;
+    /// <inheritdoc/>
+    public string Name
+    {
+        get
+        {
+            if (_name != null) return _name;
 
-    public abstract string RotationName { get; }
+            var classJob = Svc.Data.GetExcelSheet<ClassJob>()?.GetRow((uint)Job)!;
 
+            return _name = classJob.Abbreviation + " - " + classJob.Name;
+        }
+    }
+
+    /// <inheritdoc/>
     public bool IsEnabled
     {
-        get => !Service.Config.GlobalConfig.DisabledJobs.Contains(Jobs.FirstOrDefault());
+        get => !Service.Config.DisabledJobs.Contains(Job);
         set
         {
             if (value)
             {
-                Service.Config.GlobalConfig.DisabledJobs.Remove(Jobs.FirstOrDefault());
+                Service.Config.DisabledJobs.Remove(Job);
             }
             else
             {
-                Service.Config.GlobalConfig.DisabledJobs.Add(Jobs.FirstOrDefault());
+                Service.Config.DisabledJobs.Add(Job);
             }
         }
     }
 
+    /// <inheritdoc/>
     public uint IconID { get; }
 
+    /// <inheritdoc/>
     public IRotationConfigSet Configs { get; }
 
+    /// <inheritdoc/>
     public static Vector3? MoveTarget { get; internal set; }
 
-    public virtual string Description { get; } = string.Empty;
+    /// <inheritdoc/>
+    public string Description => this.GetType().GetCustomAttribute<RotationAttribute>()?.Description ?? string.Empty;
 
-    public IAction ActionHealAreaGCD { get; private set; }
+    /// <inheritdoc/>
+    public IAction? ActionHealAreaGCD { get; private set; }
 
-    public IAction ActionHealAreaAbility { get; private set; }
+    /// <inheritdoc/>
+    public IAction? ActionHealAreaAbility { get; private set; }
 
-    public IAction ActionHealSingleGCD { get; private set; }
+    /// <inheritdoc/>
+    public IAction? ActionHealSingleGCD { get; private set; }
 
-    public IAction ActionHealSingleAbility { get; private set; }
+    /// <inheritdoc/>
+    public IAction? ActionHealSingleAbility { get; private set; }
 
-    public IAction ActionDefenseAreaGCD { get; private set; }
+    /// <inheritdoc/>
+    public IAction? ActionDefenseAreaGCD { get; private set; }
 
-    public IAction ActionDefenseAreaAbility { get; private set; }
+    /// <inheritdoc/>
+    public IAction? ActionDefenseAreaAbility { get; private set; }
 
-    public IAction ActionDefenseSingleGCD { get; private set; }
+    /// <inheritdoc/>
+    public IAction? ActionDefenseSingleGCD { get; private set; }
 
-    public IAction ActionDefenseSingleAbility { get; private set; }
+    /// <inheritdoc/>
+    public IAction? ActionDefenseSingleAbility { get; private set; }
 
-    public IAction ActionMoveForwardGCD { get; private set; }
+    /// <inheritdoc/>
+    public IAction? ActionMoveForwardGCD { get; private set; }
 
-    public IAction ActionMoveForwardAbility { get; private set; }
+    /// <inheritdoc/>
+    public IAction? ActionMoveForwardAbility { get; private set; }
 
-    public IAction ActionMoveBackAbility { get; private set; }
+    /// <inheritdoc/>
+    public IAction? ActionMoveBackAbility { get; private set; }
 
-    public IAction ActionSpeedAbility { get; private set; }
+    /// <inheritdoc/>
+    public IAction? ActionSpeedAbility { get; private set; }
 
-    public IAction EsunaStanceNorthGCD { get; private set; }
+    /// <inheritdoc/>
+    public IAction? ActionDispelStancePositionalGCD { get; private set; }
 
-    public IAction EsunaStanceNorthAbility { get; private set; }
+    /// <inheritdoc/>
+    public IAction? ActionDispelStancePositionalAbility { get; private set; }
 
-    public IAction RaiseShirkGCD { get; private set; }
+    /// <inheritdoc/>
+    public IAction? ActionRaiseShirkGCD { get; private set; }
 
-    public IAction RaiseShirkAbility { get; private set; }
+    /// <inheritdoc/>
+    public IAction? ActionRaiseShirkAbility { get; private set; }
 
-    public IAction AntiKnockbackAbility { get; private set; }
+    /// <inheritdoc/>
+    public IAction? ActionAntiKnockbackAbility { get; private set; }
 
+    /// <summary>
+    /// Is this action valid.
+    /// </summary>
+    [Description("Is this rotation valid")]
     public bool IsValid { get; private set; } = true;
+
+    /// <summary>
+    /// Why this action is not valid.
+    /// </summary>
     public string WhyNotValid { get; private set; } = string.Empty;
 
+    /// <summary>
+    /// Should show the status to the users.
+    /// </summary>
+    [Description("Show the status")]
     public virtual bool ShowStatus => false;
 
     private protected CustomRotation()
     {
-        IconID = IconSet.GetJobIcon(this);
+        IconID = IconSet.GetJobIcon(this.Job);
         Configs = CreateConfiguration();
     }
 
+    /// <summary>
+    /// The way to create the configurations.
+    /// </summary>
+    /// <returns></returns>
     protected virtual IRotationConfigSet CreateConfiguration()
     {
-        return new RotationConfigSet(Jobs[0], GetType().FullName);
+        return new RotationConfigSet();
     }
 
-    public override string ToString() => RotationName;
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
+    /// <inheritdoc/>
+    public override string ToString() => this.GetType().GetCustomAttribute<RotationAttribute>()?.Name ?? this.GetType().Name;
 
     /// <summary>
     /// Update your customized field.

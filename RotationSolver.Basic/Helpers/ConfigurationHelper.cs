@@ -1,5 +1,4 @@
 ﻿using Dalamud.Game.ClientState.Keys;
-using ECommons.ExcelServices;
 
 namespace RotationSolver.Basic.Helpers;
 
@@ -7,56 +6,37 @@ internal static class ConfigurationHelper
 {
     public static readonly SortedList<ActionID, EnemyPositional> ActionPositional = new()
     {
-        {ActionID.FangandClaw, EnemyPositional.Flank},
-        {ActionID.WheelingThrust, EnemyPositional.Rear},
-        {ActionID.ChaosThrust, EnemyPositional.Rear },
-        {ActionID.ChaoticSpring, EnemyPositional.Rear },
-        {ActionID.Demolish, EnemyPositional.Rear },
-        {ActionID.SnapPunch, EnemyPositional.Flank },
-        {ActionID.TrickAttack, EnemyPositional.Rear },
-        {ActionID.AeolianEdge,EnemyPositional.Rear },
-        {ActionID.ArmorCrush, EnemyPositional.Flank },
-        {ActionID.Gibbet, EnemyPositional.Flank},
-        {ActionID.Gallows, EnemyPositional.Rear },
-        {ActionID.Gekko, EnemyPositional.Rear},
-        {ActionID.Kasha, EnemyPositional.Flank },
+        {ActionID.FangAndClawPvE, EnemyPositional.Flank},
+        {ActionID.WheelingThrustPvE, EnemyPositional.Rear},
+        {ActionID.ChaosThrustPvE, EnemyPositional.Rear },
+        {ActionID.ChaoticSpringPvE, EnemyPositional.Rear },
+        {ActionID.DemolishPvE, EnemyPositional.Rear },
+        {ActionID.SnapPunchPvE, EnemyPositional.Flank },
+        {ActionID.TrickAttackPvE, EnemyPositional.Rear },
+        {ActionID.AeolianEdgePvE,EnemyPositional.Rear },
+        {ActionID.ArmorCrushPvE, EnemyPositional.Flank },
+        {ActionID.GibbetPvE, EnemyPositional.Flank},
+        {ActionID.GallowsPvE, EnemyPositional.Rear },
+        {ActionID.GekkoPvE, EnemyPositional.Rear},
+        {ActionID.KashaPvE, EnemyPositional.Flank },
     };
 
-    public static readonly uint[] BadStatus = new uint[]
-    {
+    public static readonly uint[] BadStatus =
+    [
         583, //No items.
         581, //Unable to use.
         579, //Between Area
         574, //Job
         573, //没学会 ?
-    };
+    ];
 
-    public static readonly VirtualKey[] Keys = new VirtualKey[] { VirtualKey.CONTROL, VirtualKey.SHIFT, VirtualKey.MENU };
-
-    public static float GetHealthAreaAbility(this Job job)
-        => Service.Config.GetValue(job, Configuration.JobConfigFloat.HealthAreaAbility);
-
-    public static float GetHealthAreaSpell(this Job job)
-        => Service.Config.GetValue(job, Configuration.JobConfigFloat.HealthAreaSpell);
-
-    public static float GetHealthAreaAbilityHot(this Job job)
-        => Service.Config.GetValue(job, Configuration.JobConfigFloat.HealthAreaAbilityHot);
-
-    public static float GetHealthAreaSpellHot(this Job job)
-    => Service.Config.GetValue(job, Configuration.JobConfigFloat.HealthAreaSpellHot);
-
-    public static float GetHealthSingleAbility(this Job job)
-        => Service.Config.GetValue(job, Configuration.JobConfigFloat.HealthSingleAbility);
-
-    public static float GetHealthSingleSpell(this Job job)
-        => Service.Config.GetValue(job, Configuration.JobConfigFloat.HealthSingleSpell);
-
-    public static float GetHealthSingleAbilityHot(this Job job)
-    => Service.Config.GetValue(job, Configuration.JobConfigFloat.HealthSingleAbilityHot);
-
-    public static float GetHealthSingleSpellHot(this Job job)
-    => Service.Config.GetValue(job, Configuration.JobConfigFloat.HealthSingleSpellHot);
-
-    public static float GetHealthForDyingTank(this Job job)
-        => Service.Config.GetValue(job, Configuration.JobConfigFloat.HealthForDyingTanks);
+    public static VirtualKey ToVirtual(this ConsoleModifiers modifiers)
+    {
+        return modifiers switch
+        {
+            ConsoleModifiers.Alt => VirtualKey.MENU,
+            ConsoleModifiers.Shift => VirtualKey.SHIFT,
+            _ => VirtualKey.CONTROL,
+        };
+    }
 }

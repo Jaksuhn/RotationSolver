@@ -6,16 +6,20 @@ internal abstract class DelayCondition : ICondition
 {
     public float DelayMin = 0;
     public float DelayMax = 0;
+    public float DelayOffset = 0;
 
     RandomDelay _delay = default;
+    OffsetDelay _offsetDelay = default;
 
     public bool Not = false;
 
     [ThreadStatic]
-    private static Stack<ICondition> _callingStack;
+    private static Stack<ICondition>? _callingStack;
 
-    public bool IsTrue(ICustomRotation rotation)
+    public bool IsTrue(ICustomRotation? rotation)
     {
+        if (rotation == null) return false;
+
         _callingStack ??= new(64);
 
         if (_callingStack.Contains(this))
@@ -29,13 +33,18 @@ internal abstract class DelayCondition : ICondition
             _delay = new(() => (DelayMin, DelayMax));
         }
 
+        if(_offsetDelay.GetDelay == null)
+        {
+            _offsetDelay = new(() => DelayOffset);
+        }
+
         _callingStack.Push(this);
         var value = CheckBefore(rotation) && IsTrueInside(rotation);
         if (Not)
         {
             value = !value;
         }
-        var result = _delay.Delay(value);
+        var result = _delay.Delay(_offsetDelay.Delay(value));
         _callingStack.Pop();
 
         return result;
@@ -48,7 +57,7 @@ internal abstract class DelayCondition : ICondition
         return Player.Available;
     }
 
-    internal static bool CheckBaseAction(ICustomRotation rotation, ActionID id, ref IBaseAction action)
+    internal static bool CheckBaseAction(ICustomRotation rotation, ActionID id, ref IBaseAction? action)
     {
         if (id != ActionID.None && (action == null || (ActionID)action.ID != id))
         {
@@ -58,7 +67,7 @@ internal abstract class DelayCondition : ICondition
         return true;
     }
 
-    internal static bool CheckMemberInfo<T>(ICustomRotation rotation, ref string name, ref T value) where T : MemberInfo
+    internal static bool CheckMemberInfo<T>(ICustomRotation? rotation, ref string name, ref T? value) where T : MemberInfo
     {
         if (rotation == null) return false;
 
@@ -67,17 +76,17 @@ internal abstract class DelayCondition : ICondition
             var memberName = name;
             if (typeof(T).IsAssignableFrom(typeof(PropertyInfo)))
             {
-                value = (T)GetAllMembers(rotation.GetType(), RuntimeReflectionExtensions.GetRuntimeProperties).FirstOrDefault(m => m.Name == memberName);
+                value = (T?)GetAllMembers(rotation.GetType(), RuntimeReflectionExtensions.GetRuntimeProperties).FirstOrDefault(m => m.Name == memberName);
             }
             else if (typeof(T).IsAssignableFrom(typeof(MethodInfo)))
             {
-                value = (T)GetAllMembers(rotation.GetType(), RuntimeReflectionExtensions.GetRuntimeMethods).FirstOrDefault(m => m.Name == memberName);
+                value = (T?)GetAllMembers(rotation.GetType(), RuntimeReflectionExtensions.GetRuntimeMethods).FirstOrDefault(m => m.Name == memberName);
             }
         }
         return true;
     }
 
-    private static IEnumerable<MemberInfo> GetAllMembers(Type type, Func<Type, IEnumerable<MemberInfo>> getFunc)
+    private static IEnumerable<MemberInfo> GetAllMembers(Type? type, Func<Type, IEnumerable<MemberInfo>> getFunc)
     {
         if (type == null || getFunc == null) return Array.Empty<MemberInfo>();
 

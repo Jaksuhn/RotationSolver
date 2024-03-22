@@ -10,11 +10,6 @@ namespace RotationSolver.Basic.Rotations;
 public interface ICustomRotation : ITexture
 {
     /// <summary>
-    /// The type of this rotation, pvp, pve, or both.
-    /// </summary>
-    CombatType Type { get; }
-
-    /// <summary>
     /// The average count of not recommend members using.
     /// </summary>
     double AverageCountOfLastUsing { get; }
@@ -50,24 +45,14 @@ public interface ICustomRotation : ITexture
     string WhyNotValid { get; }
 
     /// <summary>
-    /// The class job about this rotation.
+    /// Job
     /// </summary>
-    ClassJob ClassJob { get; }
+    Job Job { get; }
 
     /// <summary>
-    /// All jobs.
+    /// 
     /// </summary>
-    Job[] Jobs { get; }
-
-    /// <summary>
-    /// The game version in writing.
-    /// </summary>
-    string GameVersion { get; }
-
-    /// <summary>
-    /// The name of this rotation.
-    /// </summary>
-    string RotationName { get; }
+    JobRole Role { get; }
 
     /// <summary>
     /// Configurations about this rotation.
@@ -110,23 +95,23 @@ public interface ICustomRotation : ITexture
     PropertyInfo[] AllFloats { get; }
 
 
-    internal IAction ActionHealAreaGCD { get; }
-    internal IAction ActionHealAreaAbility { get; }
-    internal IAction ActionHealSingleGCD { get; }
-    internal IAction ActionHealSingleAbility { get; }
-    internal IAction ActionDefenseAreaGCD { get; }
-    internal IAction ActionDefenseAreaAbility { get; }
-    internal IAction ActionDefenseSingleGCD { get; }
-    internal IAction ActionDefenseSingleAbility { get; }
-    internal IAction ActionMoveForwardGCD { get; }
-    internal IAction ActionMoveForwardAbility { get; }
-    internal IAction ActionMoveBackAbility { get; }
-    internal IAction ActionSpeedAbility { get; }
-    internal IAction EsunaStanceNorthGCD { get; }
-    internal IAction EsunaStanceNorthAbility { get; }
-    internal IAction RaiseShirkGCD { get; }
-    internal IAction RaiseShirkAbility { get; }
-    internal IAction AntiKnockbackAbility { get; }
+    internal IAction? ActionHealAreaGCD { get; }
+    internal IAction? ActionHealAreaAbility { get; }
+    internal IAction? ActionHealSingleGCD { get; }
+    internal IAction? ActionHealSingleAbility { get; }
+    internal IAction? ActionDefenseAreaGCD { get; }
+    internal IAction? ActionDefenseAreaAbility { get; }
+    internal IAction? ActionDefenseSingleGCD { get; }
+    internal IAction? ActionDefenseSingleAbility { get; }
+    internal IAction? ActionMoveForwardGCD { get; }
+    internal IAction? ActionMoveForwardAbility { get; }
+    internal IAction? ActionMoveBackAbility { get; }
+    internal IAction? ActionSpeedAbility { get; }
+    internal IAction? ActionDispelStancePositionalGCD { get; }
+    internal IAction? ActionDispelStancePositionalAbility { get; }
+    internal IAction? ActionRaiseShirkGCD { get; }
+    internal IAction? ActionRaiseShirkAbility { get; }
+    internal IAction? ActionAntiKnockbackAbility { get; }
 
     /// <summary>
     /// Try to use this rotation.
@@ -134,7 +119,7 @@ public interface ICustomRotation : ITexture
     /// <param name="newAction">the next action.</param>
     /// <param name="gcdAction">the next gcd action.</param>
     /// <returns>succeed</returns>
-    bool TryInvoke(out IAction newAction, out IAction gcdAction);
+    bool TryInvoke(out IAction? newAction, out IAction? gcdAction);
 
     /// <summary>
     /// This is an <seealso cref="ImGui"/> method for display the rotation status on Window.

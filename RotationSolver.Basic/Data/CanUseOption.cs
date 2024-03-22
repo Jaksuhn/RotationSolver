@@ -1,52 +1,61 @@
-﻿namespace RotationSolver.Basic.Data;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace RotationSolver.Basic.Data;
 
 /// <summary>
-/// The options about the method <see cref="IBaseAction.CanUse(out IAction, CanUseOption, byte, byte)"/>.
+/// the option for the <see cref="IBaseAction.CanUse(out IAction, CanUseOption, byte)"/>
 /// </summary>
 [Flags]
 public enum CanUseOption : byte
 {
     /// <summary>
-    /// Nothing serious.
+    /// None.
     /// </summary>
-    None = 0,
+    None,
 
     /// <summary>
-    /// AOE only need one target to use.
-    /// Moving action don't need to have enough distance to use. 
-    /// Skip for StatusProvide and TargetStatus checking.
+    /// Skip Status Provide Check
     /// </summary>
-    MustUse = 1 << 0,
+    [Description("Skip Status Provide Check")]
+    SkipStatusProvideCheck = 1 << 0,
 
     /// <summary>
-    /// Use all charges, no keeping one.
-    /// Do not need to check the combo.
+    /// Skip Combo Check
     /// </summary>
-    EmptyOrSkipCombo = 1 << 1,
+    [Description("Skip Combo Check")]
+    SkipComboCheck = 1 << 1,
 
     /// <summary>
-    /// Ignore the target data.
+    /// Skip Casting and Moving Check
     /// </summary>
-    IgnoreTarget = 1 << 2,
+    [Description("Skip Casting and Moving Check")]
+    SkipCastingCheck = 1 << 2,
 
     /// <summary>
-    /// Ignore the check of casting an action while moving.
+    /// Is it used up all stacks
     /// </summary>
-    IgnoreCastCheck = 1 << 3,
+    [Description("Is it used up all stacks")]
+    UsedUp = 1 << 3,
 
     /// <summary>
-    /// On the last ability in one GCD.
+    /// Is it on the last ability
     /// </summary>
+    [Description("Is it on the last ability")]
     OnLastAbility = 1 << 4,
 
     /// <summary>
-    /// Ignore clipping check for 0GCDs.
+    /// Skip clipping Check
     /// </summary>
-    IgnoreClippingCheck = 1 << 5,
+    [Description("Skip clipping Check")]
+    SkipClippingCheck = 1 << 5,
 
     /// <summary>
-    /// The combination of <see cref="MustUse"/> and <see cref="EmptyOrSkipCombo"/>
+    /// Skip aoe Check
     /// </summary>
-    [JsonIgnore]
-    MustUseEmpty = MustUse | EmptyOrSkipCombo,
+    [Description("Skip aoe Check")]
+    SkipAoeCheck = 1 << 6,
 }

@@ -4,31 +4,29 @@ using Lumina.Excel.GeneratedSheets;
 
 namespace RotationSolver.Basic.Configuration.Conditions;
 
+[Description("Target Condition")]
 internal class TargetCondition : DelayCondition
 {
-    internal IBaseAction _action;
+    internal IBaseAction? _action;
     public ActionID ID { get; set; } = ActionID.None;
 
     public bool FromSelf;
-    internal Status Status;
+    internal Status? Status;
     public StatusID StatusId { get; set; }
     public TargetType TargetType;
     public TargetConditionType TargetConditionType;
 
-    public float DistanceOrTime, TimeEnd;
+    public float DistanceOrTime;
     public int GCD, Param2;
 
     public string CastingActionName = string.Empty;
 
     protected override bool IsTrueInside(ICustomRotation rotation)
     {
-        BattleChara tar;
+        BattleChara? tar;
         if (_action != null)
         {
-            if (!_action.FindTarget(true, 0, out tar, out _))
-            {
-                tar = null;
-            }
+            tar = _action.TargetInfo.FindTarget(true, false)?.Target;
         }
         else
         {
@@ -199,39 +197,6 @@ internal class TargetCondition : DelayCondition
                 }
                 result = tar.Name.TextValue == CastingActionName;
                 break;
-
-            case TargetConditionType.ObjectEffect:
-                foreach (var effect in DataCenter.ObjectEffects.Reverse())
-                {
-                    var time = effect.TimeDuration.TotalSeconds;
-                    if (time > DistanceOrTime && time < TimeEnd
-                        && effect.Param1 == GCD
-                        && effect.Param2 == Param2)
-                    {
-                        if (!FromSelf || effect.ObjectId == tar.ObjectId)
-                        {
-                            result = true;
-                            break;
-                        }
-                    }
-                }
-                break;
-
-            case TargetConditionType.Vfx:
-                foreach (var effect in DataCenter.VfxNewData.Reverse())
-                {
-                    var time = effect.TimeDuration.TotalSeconds;
-                    if (time > DistanceOrTime && time < TimeEnd
-                        && effect.Path == CastingActionName)
-                    {
-                        if (!FromSelf || effect.ObjectId == tar.ObjectId)
-                        {
-                            result = true;
-                            break;
-                        }
-                    }
-                }
-                break;
         }
 
         return result;
@@ -240,29 +205,63 @@ internal class TargetCondition : DelayCondition
 
 internal enum TargetType : byte
 {
+    [Description("Hostile Target")]
     HostileTarget,
+
+    [Description("Player")]
     Player,
+
+    [Description("Target")]
     Target,
 }
 
 internal enum TargetConditionType : byte
 {
+    [Description("Is Null")]
     IsNull,
+
+    [Description("Has status")]
     HasStatus,
+
+    [Description("Is Dying")]
     IsDying,
+
+    [Description("Is Boss From TTK")]
     IsBossFromTTK,
+
+    [Description("Is Boss From Icon")]
     IsBossFromIcon,
+
+    [Description("In Combat")]
     InCombat,
+
+    [Description("Distance")]
     Distance,
+
+    [Description("Status end")]
     StatusEnd,
+
+    [Description("Status End GCD")]
     StatusEndGCD,
+
+    [Description("Casting Action")]
     CastingAction,
+
+    [Description("Casting Action Time Until")]
     CastingActionTime,
+
+    [Description("Time To Kill")]
     TimeToKill,
+
+    [Description("HP")]
     HP,
+
+    [Description("HP%")]
     HPRatio,
+
+    [Description("MP")]
     MP,
+
+    [Description("Target Name")]
     TargetName,
-    ObjectEffect,
-    Vfx,
 }

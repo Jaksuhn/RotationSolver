@@ -9,7 +9,7 @@ namespace RotationSolver.Basic;
 
 internal class Service : IDisposable
 {
-    public const string COMMAND = "/rotation", USERNAME = "Jaksuhn", REPO = "RotationSolver", BRANCH = "testing";
+    public const string COMMAND = "/rotation", USERNAME = "ArchiDog1998", REPO = "RotationSolver";
 
     // From https://GitHub.com/PunishXIV/Orbwalker/blame/master/Orbwalker/Memory.cs#L85-L87
     [Signature("F3 0F 10 05 ?? ?? ?? ?? 0F 2E C6 0F 8A", ScanType = ScanType.StaticAddress, Fallibility = Fallibility.Infallible)]
@@ -38,7 +38,8 @@ internal class Service : IDisposable
     }
 
     public static float CountDownTime => Countdown.TimeRemaining;
-    public static PluginConfig Config { get; set; } = new PluginConfig();
+    public static Configs Config { get; set; } = null!;
+    public static Configs ConfigDefault { get; set; } = new Configs();
 
     public Service()
     {
@@ -59,7 +60,7 @@ internal class Service : IDisposable
             .Where(ptr => ptr != IntPtr.Zero);
     }
 
-    public static ExcelSheet<T> GetSheet<T>() where T : ExcelRow => Svc.Data.GetExcelSheet<T>();
+    public static ExcelSheet<T> GetSheet<T>() where T : ExcelRow => Svc.Data.GetExcelSheet<T>()!;
 
     public void Dispose()
     {

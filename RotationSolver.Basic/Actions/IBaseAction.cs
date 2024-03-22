@@ -1,215 +1,78 @@
-﻿namespace RotationSolver.Basic.Actions;
+﻿using Action = Lumina.Excel.GeneratedSheets.Action;
+
+namespace RotationSolver.Basic.Actions;
 
 /// <summary>
-/// The base action.
+/// The interface of the base action.
 /// </summary>
 public interface IBaseAction : IAction
 {
+    internal static TargetType? TargetOverride { get; set; } = null;
+    internal static bool ForceEnable { get; set; } = false;
+    internal static bool AutoHealCheck { get; set; } = false;
+    internal static bool ActionPreview { get; set; } = false;
+    internal static bool IgnoreClipping { get; set; } = false;
+    internal static bool AllEmpty { get; set; } = false;
+    internal static bool ShouldEndSpecial { get; set; } = false;
 
     /// <summary>
-    /// Attack Type
+    /// The action itself.
     /// </summary>
-    AttackType AttackType { get; }
+    Action Action { get; }
 
     /// <summary>
-    /// Aspect
+    /// The target to use on.
     /// </summary>
-    Aspect Aspect { get; }
+    TargetResult? Target { get; set; }
 
     /// <summary>
-    /// MP for casting.
+    /// The target for preview.
     /// </summary>
-    uint MPNeed { get; }
+    TargetResult? PreviewTarget { get; }
 
     /// <summary>
-    /// Casting time
+    /// The information about the target.
     /// </summary>
-    float CastTime { get; }
+    ActionTargetInfo TargetInfo { get; }
 
     /// <summary>
-    /// Range of this action.
+    /// The basic information of this action.
     /// </summary>
-    float Range { get; }
+    ActionBasicInfo Info { get; }
 
     /// <summary>
-    /// Effect range of this action.
+    /// The cd information.
     /// </summary>
-    float EffectRange { get; }
-
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    internal bool IsFriendly { get; }
-
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    internal bool IsEot { get; }
-
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    internal bool IsHeal { get; }
+    new ActionCooldownInfo Cooldown { get; }
 
     /// <summary>
-    /// If player has these statuses from player self, this action will not used.
+    /// The setting to use this action.
     /// </summary>
-    StatusID[] StatusProvide { get; }
+    ActionSetting Setting { get; set; }
+    internal ActionConfig Config { get; }
 
     /// <summary>
-    /// If player doesn't have these statuses from player self, this action will not used.
+    /// Can I use this action.
     /// </summary>
-    StatusID[] StatusNeed { get; }
+    /// <param name="act">The return action</param>
+    /// <param name="skipStatusProvideCheck">Skip Status Provide Check</param>
+    /// <param name="skipComboCheck">Skip Combo Check</param>
+    /// <param name="skipCastingCheck">Skip Casting and Moving Check</param>
+    /// <param name="usedUp">Is it used up all stacks</param>
+    /// <param name="onLastAbility">Is it on the last ability</param>
+    /// <param name="skipClippingCheck">Skip clipping Check</param>
+    /// <param name="skipAoeCheck">Skip aoe Check</param>
+    /// <param name="gcdCountForAbility">the gcd count for the ability.</param>
+    /// <returns>can I use it</returns>
+    bool CanUse(out IAction act, bool skipStatusProvideCheck = false, bool skipComboCheck = false, bool skipCastingCheck = false,
+        bool usedUp = false, bool onLastAbility = false, bool skipClippingCheck = false, bool skipAoeCheck = false, byte gcdCountForAbility = 0);
 
     /// <summary>
-    /// Check for this action, but not for the rotation. It is some additional conditions for this action.
-    /// Input data is the target for this action.
+    /// Can I use this action.
     /// </summary>
-    Func<BattleChara, bool, bool> ActionCheck { get; }
-
-    /// <summary>
-    /// The way to choice the target.
-    /// </summary>
-    Func<IEnumerable<BattleChara>, bool, BattleChara> ChoiceTarget { get; }
-
-    /// <summary>
-    /// Is a GCD action.
-    /// </summary>
-    bool IsRealGCD { get; }
-
-    /// <summary>
-    /// Is a simple gcd action, without other cooldown.
-    /// </summary>
-    bool IsGeneralGCD { get; }
-
-    /// <summary>
-    /// The filter for hostiles.
-    /// </summary>
-    Func<IEnumerable<BattleChara>, IEnumerable<BattleChara>> FilterForHostiles { get; }
-
-    /// <summary>
-    /// Is this action a duty action.
-    /// </summary>
-    bool IsDutyAction { get; }
-
-    /// <summary>
-    /// Is this action a LB.
-    /// </summary>
-    bool IsLimitBreak { get; }
-
-    /// <summary>
-    /// Is this action on the slot.
-    /// </summary>
-    bool IsOnSlot { get; }
-
-    /// <summary>
-    /// Can I use this action at this time. It will check a lot of things.
-    /// Level, Enabled, Action Status, MP, Player Status, Coll down, Combo, Moving (for casting), Charges, Target, etc.
-    /// </summary>
-    /// <param name="act"></param>
-    /// <param name="option">Options about using this method.</param>
-    /// <param name="aoeCount">How many targets do you want this skill to affect</param>
-    /// <param name="gcdCountForAbility">The count of gcd for ability to delay. Make it use it earlier when max stack.</param>
-    /// <returns>Should I use.</returns>
-    bool CanUse(out IAction act, CanUseOption option = CanUseOption.None, byte aoeCount = 0, byte gcdCountForAbility = 0);
-
-    #region CoolDown
-    /// <summary>
-    /// Current charges count.
-    /// </summary>
-    ushort CurrentCharges { get; }
-
-    /// <summary>
-    /// Max charges count.
-    /// </summary>
-    ushort MaxCharges { get; }
-
-    /// <summary>
-    /// At least has one Charge
-    /// </summary>
-    bool HasOneCharge { get; }
-
-    /// <summary>
-    /// Has it been in cooldown for <paramref name="gcdCount"/> gcds and <paramref name="offset"/> abilities?
-    /// </summary>
-    /// <param name="gcdCount"></param>
-    /// <param name="offset"></param>
-    /// <returns></returns>
-    bool ElapsedOneChargeAfterGCD(uint gcdCount = 0, float offset = 0);
-
-    /// <summary>
-    /// Has it been in cooldown for <paramref name="time"/> seconds?
-    /// </summary>
-    /// <param name="time"></param>
-    /// <returns></returns>
-    bool ElapsedOneChargeAfter(float time);
-
-    /// <summary>
-    /// Has it been in cooldown for <paramref name="gcdCount"/> gcds and <paramref name="offset"/> abilities?
-    /// </summary>
-    /// <param name="gcdCount"></param>
-    /// <param name="offset"></param>
-    /// <returns></returns>
-    bool ElapsedAfterGCD(uint gcdCount = 0, float offset = 0);
-
-    /// <summary>
-    /// Has it been in cooldown for <paramref name="time"/> seconds?
-    /// </summary>
-    /// <param name="time"></param>
-    /// <returns></returns>
-    bool ElapsedAfter(float time);
-
-    /// <summary>
-    /// Will have at least one charge after <paramref name="gcdCount"/> gcds and <paramref name="offset"/> abilities?
-    /// </summary>
-    /// <param name="gcdCount"></param>
-    /// <param name="offset"></param>
-    /// <returns></returns>
-    bool WillHaveOneChargeGCD(uint gcdCount = 0, float offset = 0);
-
-    /// <summary>
-    /// Will have at least one charge after <paramref name="remain"/> seconds?
-    /// </summary>
-    /// <param name="remain"></param>
-    /// <returns></returns>
-    bool WillHaveOneCharge(float remain);
-    #endregion
-
-    #region Target
-    /// <summary>
-    /// If target has these statuses from player self, this aciton will not used.
-    /// </summary>
-    StatusID[] TargetStatus { get; }
-
-    /// <summary>
-    /// Action using position.
-    /// </summary>
-    Vector3 Position { get; }
-
-    /// <summary>
-    /// The target of this action.
-    /// </summary>
-    BattleChara Target { get; }
-
-    /// <summary>
-    /// Is this action's target type is target only one.
-    /// </summary>
-    bool IsSingleTarget { get; }
-
-    /// <summary>
-    /// How many targets are needed to use this action.
-    /// </summary>
-    byte AOECount { get; internal set; }
-
-    /// <summary>
-    /// How much ttk that this action needs the targets are.
-    /// </summary>
-    float TimeToKill { get; internal set; }
-
-    /// <summary>
-    /// The user set heal ratio.
-    /// </summary>
-    float AutoHealRatio { get; internal set; }
-
-    /// <summary>
-    /// The targets that this action affected on.
-    /// </summary>
-    BattleChara[] AffectedTargets { get; }
-
-    internal bool FindTarget(bool mustUse, byte aoeCount, out BattleChara target, out BattleChara[] affectedTargets);
-    #endregion
+    /// <param name="act">The return action</param>
+    /// <param name="option">The options</param>
+    /// <param name="gcdCountForAbility">the gcd count for the ability.</param>
+    /// <returns>can I use it</returns>
+    bool CanUse(out IAction act, CanUseOption option, byte gcdCountForAbility = 0);
 }

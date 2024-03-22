@@ -23,10 +23,10 @@ public enum JobRole : byte
     /// </summary>
     Melee = 2,
 
-    /// <summary>
-    /// 
-    /// </summary>
-    Ranged = 3,
+    ///// <summary>
+    ///// 
+    ///// </summary>
+    //Ranged = 3,
 
     /// <summary>
     /// 
@@ -43,15 +43,15 @@ public enum JobRole : byte
     /// </summary>
     RangedMagical = 6,
 
-    /// <summary>
-    /// 
-    /// </summary>
-    DiscipleOfTheLand = 7,
+    ///// <summary>
+    ///// 
+    ///// </summary>
+    //DiscipleOfTheLand = 7,
 
-    /// <summary>
-    /// 
-    /// </summary>
-    DiscipleOfTheHand = 8,
+    ///// <summary>
+    ///// 
+    ///// </summary>
+    //DiscipleOfTheHand = 8,
 }
 
 /// <summary>
@@ -68,14 +68,14 @@ public static class JobRoleExtension
     {
         var role = (JobRole)job.Role;
 
-        if (role is JobRole.Ranged or JobRole.None)
+        if (role is (JobRole)3 or JobRole.None)
         {
             role = job.ClassJobCategory.Row switch
             {
                 30 => JobRole.RangedPhysical,
                 31 => JobRole.RangedMagical,
-                32 => JobRole.DiscipleOfTheLand,
-                33 => JobRole.DiscipleOfTheHand,
+                //32 => JobRole.DiscipleOfTheLand,
+                //33 => JobRole.DiscipleOfTheHand,
                 _ => JobRole.None,
             };
         }
@@ -89,25 +89,14 @@ public static class JobRoleExtension
     /// <returns></returns>
     public static Job[] ToJobs(this JobRole role)
     {
-        switch (role)
+        return role switch
         {
-            case JobRole.Tank:
-                return new Job[] { Job.WAR, Job.PLD, Job.DRK, Job.GNB };
-            case JobRole.Healer:
-                return new Job[] { Job.WHM, Job.SCH, Job.AST, Job.SGE };
-            case JobRole.Melee:
-                return new Job[] { Job.MNK, Job.DRG, Job.NIN, Job.SAM, Job.RPR };
-            case JobRole.RangedPhysical:
-                return new Job[] { Job.BRD, Job.MCH, Job.DNC };
-            case JobRole.RangedMagical:
-                return new Job[] { Job.BLM, Job.SMN, Job.RDM, Job.BLU };
-
-            case JobRole.Ranged:
-                var result = new List<Job>(JobRole.RangedPhysical.ToJobs());
-                result.AddRange(JobRole.RangedMagical.ToJobs());
-                return result.ToArray();
-        }
-
-        return Array.Empty<Job>();
+            JobRole.Tank => [Job.WAR, Job.PLD, Job.DRK, Job.GNB],
+            JobRole.Healer => [Job.WHM, Job.SCH, Job.AST, Job.SGE],
+            JobRole.Melee => [Job.MNK, Job.DRG, Job.NIN, Job.SAM, Job.RPR],
+            JobRole.RangedPhysical => [Job.BRD, Job.MCH, Job.DNC],
+            JobRole.RangedMagical => [Job.BLM, Job.SMN, Job.RDM, Job.BLU],
+            _ => [],
+        };
     }
 }
