@@ -21,7 +21,8 @@ internal partial class Configs : IPluginConfiguration
         Extra = "Extra",
         Rotations = "Rotations",
         List = "List",
-        Debug = "Debug";
+        Debug = "Debug",
+        SecretParams = "SecretParams";
 
     public int Version { get; set; } = 8;
 
@@ -391,18 +392,6 @@ internal partial class Configs : IPluginConfiguration
     [ConditionBool, UI("Healing the members with GCD if there is nothing to do in combat.",
         Filter = AutoActionCondition, Section = 1)]
     private static readonly bool _healWhenNothingTodo = true;
-
-    [ConditionBool, UI("Say hello to all users of Rotation Solver.",
-        Filter =BasicParams)]
-    private static readonly bool _sayHelloToAll = true;
-
-    [ConditionBool, UI("Say hello to the users of Rotation Solver.", Description = "It can only be disabled for users, not authors and contributors.\nIf you want to be greeted by other users, please DM ArchiTed in Discord Server with your Hash!",
-        Parent =nameof(SayHelloToAll))]
-    private static readonly bool _sayHelloToUsers = true;
-
-    [ConditionBool, UI("Just say hello once to the same user.",
-        Parent = nameof(SayHelloToAll))]
-    private static readonly bool _justSayHelloOnce = false;
 
     [ConditionBool, UI("Only Heal self When Not a healer", 
         Filter = AutoActionCondition, Section = 1,
