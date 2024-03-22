@@ -352,7 +352,7 @@ public partial class RotationConfigWindow : Window
             {
                 if (!File.Exists(file))
                 {
-                    var url = $"https://raw.githubusercontent.com/{Service.USERNAME}/{Service.REPO}/main/Images/{name}.png";
+                    var url = $"https://raw.githubusercontent.com/{Service.USERNAME}/{Service.REPO}/{Service.BRANCH}/Images/{name}.png";
 
                     using var client = new HttpClient();
                     var stream = await client.GetStreamAsync(url);
