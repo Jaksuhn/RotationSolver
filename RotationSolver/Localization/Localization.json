@@ -408,5 +408,8 @@
   "RotationSolver.Data.UiString.ConfigWindow_DutyRotationDesc": "The duty rotation you chose, click to modify.",
   "RotationSolver.Data.UiString.AvariceWarning": "Avarice addon was not detected, please install it if you want to get the positional indicators for Rotation Solver!",
   "RotationSolver.Data.UiString.TextToTalkWarning": "TextToTalk addon was not detected, please install it to make Rotation Solver give audio notifications!",
-  "RotationSolver.Data.UiString.ActionSequencer_Load": "Load From folder."
+  "RotationSolver.Data.UiString.ActionSequencer_Load": "Load From folder.",
+  "StopCastingDelayName": "The range of random delay for stopping casting when the target is dead or immune to damage.",
+  "RotationSolver.Data.UiString.ConfigWindow_Basic_AnimationLockTime": "The Animation lock time from individual actions. Here is 0.6s for example.",
+  "KeyboardNoiseName": "Effect times"
 }
