@@ -405,5 +405,8 @@
   "HealWhenNothingTodoDelayName": "The delay of this type of healing.",
   "HealthDifferenceName": "HP for standard deviation for using AoE heal.",
   "AutoHealTimeToKillName": "Stop healing when time to kill is lower then...",
-  "RotationSolver.Data.UiString.ConfigWindow_DutyRotationDesc": "The duty rotation you chose, click to modify."
+  "RotationSolver.Data.UiString.ConfigWindow_DutyRotationDesc": "The duty rotation you chose, click to modify.",
+  "RotationSolver.Data.UiString.AvariceWarning": "Avarice addon was not detected, please install it if you want to get the positional indicators for Rotation Solver!",
+  "RotationSolver.Data.UiString.TextToTalkWarning": "TextToTalk addon was not detected, please install it to make Rotation Solver give audio notifications!",
+  "RotationSolver.Data.UiString.ActionSequencer_Load": "Load From folder."
 }

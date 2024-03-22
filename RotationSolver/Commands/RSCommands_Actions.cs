@@ -159,6 +159,15 @@ public static partial class RSCommands
         if (DataCenter.State) DoStateCommandType(StateCommandType.Cancel);
     }
 
+    public static void IncrementState()
+    {
+        if (!DataCenter.State) { DoStateCommandType(StateCommandType.Auto); return; }
+        if (DataCenter.State && !DataCenter.IsManual && DataCenter.TargetingType == TargetingType.Big) { DoStateCommandType(StateCommandType.Auto); return; }
+        if (DataCenter.State && !DataCenter.IsManual) { DoStateCommandType(StateCommandType.Manual); return; }
+        if (DataCenter.State && DataCenter.IsManual) { DoStateCommandType(StateCommandType.Cancel); return; }
+    }
+
+
     static float _lastCountdownTime = 0;
     internal static void UpdateRotationState()
     {
