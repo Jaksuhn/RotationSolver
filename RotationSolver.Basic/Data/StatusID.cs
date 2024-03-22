@@ -1336,6 +1336,11 @@ public enum StatusID : ushort
     /// <summary>
     /// 
     /// </summary>
+    Excogitation = 1220,
+
+    /// <summary>
+    /// 
+    /// </summary>
     CollectiveUnconscious = 849,
 
     /// <summary>
