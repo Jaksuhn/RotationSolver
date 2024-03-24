@@ -20,6 +20,7 @@
 		<UseWindowsForms>true</UseWindowsForms>
 		<Platforms>x64</Platforms>
 		<LangVersion>preview</LangVersion>
+		<TargetFramework>net8.0-windows</TargetFramework>
 	</PropertyGroup>
 	
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
