@@ -1,4 +1,5 @@
-﻿using FFXIVClientStructs.FFXIV.Client.Game;
+﻿using ECommons.DalamudServices;
+using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.Interop;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,9 @@ namespace RotationSolver.Basic.Helpers
             if (actionManager == null) return 0.6f;
 
             var animationLockRaw = ((IntPtr)actionManager + 8);
-            return *(float*)animationLockRaw;
+            var animationLock = *(float*)animationLockRaw;
+            Svc.Log.Verbose($"AnimationLock: {animationLock}");
+            return animationLock;
         }
     }
 }

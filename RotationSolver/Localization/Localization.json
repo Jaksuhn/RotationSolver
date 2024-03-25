@@ -434,5 +434,8 @@
   "ControlWindowGCDSizeName": "GCD icon size",
   "ControlWindow0GCDSizeName": "oGCD icon size",
   "ControlWindowLockBgName": "Locked Control Window's Background",
-  "ControlWindowUnlockBgName": "Unlocked Control Window's Background"
+  "ControlWindowUnlockBgName": "Unlocked Control Window's Background",
+  "RotationSolver.Data.UiString.ConfigWindow_Basic_ClickingDuration": "The clicking duration, RS will try to click at this moment.",
+  "RotationSolver.Data.UiString.ConfigWindow_Basic_IdealClickingTime": "The ideal click time.",
+  "RotationSolver.Data.UiString.ConfigWindow_Basic_RealClickingTime": "The real click time."
 }
