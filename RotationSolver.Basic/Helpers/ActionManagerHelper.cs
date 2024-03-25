@@ -18,7 +18,7 @@ namespace RotationSolver.Basic.Helpers
 
             var animationLockRaw = ((IntPtr)actionManager + 8);
             var animationLock = *(float*)animationLockRaw;
-            Svc.Log.Verbose($"AnimationLock: {animationLock}");
+            //Svc.Log.Verbose($"AnimationLock: {animationLock}");
             return animationLock;
         }
     }
