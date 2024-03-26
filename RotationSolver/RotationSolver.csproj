@@ -42,7 +42,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\ECommons\ECommons\ECommons.csproj" />
 		<ProjectReference Include="..\RotationSolver.Basic\RotationSolver.Basic.csproj" />
-		<ProjectReference Include="..\XIVPainter\XIVPainter\XIVPainter.csproj" />
+		<ProjectReference Include="..\XIVPainter-Archi\XIVPainter\XIVPainter.csproj" />
 		
 		<Using Include="Dalamud.Game.ClientState.Objects.Types" />
 		<Using Include="RotationSolver.Basic" />
