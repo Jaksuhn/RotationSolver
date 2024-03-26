@@ -38,6 +38,14 @@ public static partial class RSCommands
     }
     internal static DateTime _lastUsedTime = DateTime.MinValue;
     internal static uint _lastActionID;
+
+    public static void IncrementState()
+    {
+        if (!DataCenter.State) { DoStateCommandType(StateCommandType.Auto); return; }
+        if (DataCenter.State && !DataCenter.IsManual && DataCenter.TargetingType == TargetingType.Big) { DoStateCommandType(StateCommandType.Auto); return; }
+        if (DataCenter.State && !DataCenter.IsManual) { DoStateCommandType(StateCommandType.Manual); return; }
+        if (DataCenter.State && DataCenter.IsManual) { DoStateCommandType(StateCommandType.Cancel); return; }
+    }
     public static void DoAction()
     {
         var statusTimes = Player.Object.StatusTimes(false, [.. OtherConfiguration.NoCastingStatus.Select(i => (StatusID)i)]);
