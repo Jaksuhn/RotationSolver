@@ -21,12 +21,6 @@ partial class MachinistRotation
     /// </summary>
     public static byte Battery => JobGauge.Battery;
 
-    /// <summary>
-    /// 
-    /// </summary>
-    public static byte LastSummonBatteryPower => JobGauge.LastSummonBatteryPower
-
-
     static float OverheatTimeRemainingRaw => JobGauge.OverheatTimeRemaining / 1000f;
 
     /// <summary>

@@ -10,7 +10,6 @@ using RotationSolver.Basic.Configuration;
 using RotationSolver.Basic.Configuration.Timeline;
 using RotationSolver.Basic.Configuration.Timeline.TimelineCondition;
 using RotationSolver.Basic.Configuration.Timeline.TimelineDrawing;
-using RotationSolver.Basic.Data;
 using RotationSolver.Commands;
 using RotationSolver.Data;
 using RotationSolver.Helpers;

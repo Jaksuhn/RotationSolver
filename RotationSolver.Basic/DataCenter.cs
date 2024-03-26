@@ -27,7 +27,6 @@ internal static class DataCenter
         }
     }
 
-    public static bool IsActivated() => State || IsManual || Service.Config.TeachingMode;
     internal static Queue<MapEffectData> MapEffects { get; } = new(64);
     internal static Queue<ObjectEffectData> ObjectEffects { get; } = new(64);
     internal static Queue<VfxNewData> VfxNewData { get; } = new(64);

@@ -304,25 +304,25 @@ public partial class RotationConfigWindow : Window
                 }
             }
 
-            //if (wholeWidth <= 60 * Scale
-            //    ? IconSet.GetTexture("https://storage.ko-fi.com/cdn/brandasset/kofi_s_logo_nolabel.png", out var texture)
-            //    : IconSet.GetTexture("https://storage.ko-fi.com/cdn/brandasset/kofi_bg_tag_dark.png", out texture))
-            //{
-            //    var width = Math.Min(150 * Scale, Math.Max(Scale * MIN_COLUMN_WIDTH, Math.Min(wholeWidth, texture.Width)));
-            //    var size = new Vector2(width, width * texture.Height / texture.Width);
-            //    size *= MathF.Max(Scale * MIN_COLUMN_WIDTH / size.Y, 1);
-            //    var result = false;
-            //    ImGuiHelper.DrawItemMiddle(() =>
-            //    {
-            //        ImGui.SetCursorPosY(ImGui.GetWindowSize().Y + ImGui.GetScrollY() - size.Y);
-            //        result = ImGuiHelper.NoPaddingNoColorImageButton(texture.ImGuiHandle, size, "Donate Plugin");
-            //    }, wholeWidth, size.X);
+            if (wholeWidth <= 60 * Scale
+                ? IconSet.GetTexture("https://storage.ko-fi.com/cdn/brandasset/kofi_s_logo_nolabel.png", out var texture)
+                : IconSet.GetTexture("https://storage.ko-fi.com/cdn/brandasset/kofi_bg_tag_dark.png", out texture))
+            {
+                var width = Math.Min(150 * Scale, Math.Max(Scale * MIN_COLUMN_WIDTH, Math.Min(wholeWidth, texture.Width)));
+                var size = new Vector2(width, width * texture.Height / texture.Width);
+                size *= MathF.Max(Scale * MIN_COLUMN_WIDTH / size.Y, 1);
+                var result = false;
+                ImGuiHelper.DrawItemMiddle(() =>
+                {
+                    ImGui.SetCursorPosY(ImGui.GetWindowSize().Y + ImGui.GetScrollY() - size.Y);
+                    result = ImGuiHelper.NoPaddingNoColorImageButton(texture.ImGuiHandle, size, "Donate Plugin");
+                }, wholeWidth, size.X);
 
-            //    if (result)
-            //    {
-            //        Util.OpenLink("https://ko-fi.com/B0B0IN5DX");
-            //    }
-            //}
+                if (result)
+                {
+                    Util.OpenLink("https://ko-fi.com/B0B0IN5DX");
+                }
+            }
         }
     }
 
@@ -352,7 +352,7 @@ public partial class RotationConfigWindow : Window
             {
                 if (!File.Exists(file))
                 {
-                    var url = $"https://raw.githubusercontent.com/{Service.USERNAME}/{Service.REPO}/{Service.BRANCH}/Images/{name}.png";
+                    var url = $"https://raw.githubusercontent.com/{Service.USERNAME}/{Service.REPO}/main/Images/{name}.png";
 
                     using var client = new HttpClient();
                     var stream = await client.GetStreamAsync(url);
@@ -567,7 +567,7 @@ public partial class RotationConfigWindow : Window
         using var child = ImRaii.Child("Rotation Solver Body", -Vector2.One);
         if (child)
         {
-            if (_searchResults != null && _searchResults.Any())
+            if (_searchResults != null && _searchResults.Length != 0)
             {
                 using (var font = ImRaii.PushFont(DrawingExtensions.GetFont(18)))
                 {
@@ -864,8 +864,19 @@ public partial class RotationConfigWindow : Window
             Util.OpenLink("https://crowdin.com/project/rotationsolver");
         }
 
-        var text = UiString.ConfigWindow_About_OpenConfigFolder.Local();
+        var text = "My story about FFXIV and Rotation Solver\n - ArchiTed / Youtube";
         var textWidth = ImGuiHelpers.GetButtonSize(text).X;
+        ImGuiHelper.DrawItemMiddle(() =>
+        {
+            if (ImGui.Button(text))
+            {
+                Util.OpenLink("https://www.youtube.com/watch?v=Adigd5uqDx4");
+            }
+        }, width, textWidth);
+
+
+        text = UiString.ConfigWindow_About_OpenConfigFolder.Local();
+        textWidth = ImGuiHelpers.GetButtonSize(text).X;
         ImGuiHelper.DrawItemMiddle(() =>
         {
             if (ImGui.Button(text))
@@ -1188,13 +1199,13 @@ public partial class RotationConfigWindow : Window
             var key = rotation.GetType().FullName ?? rotation.GetType().Name + "." + config.Name;
             var name = $"##{config.GetHashCode()}_{(key + ".Name").Local(config.Name)}";
             string command = ToCommandStr(OtherCommandType.Rotations, config.Name, config.DefaultValue);
-            void Reset() => set.SetValue(config.Name, config.DefaultValue);
+            void Reset() => config.Value = config.DefaultValue;
 
             ImGuiHelper.PrepareGroup(key, command, Reset);
 
             if (config is RotationConfigCombo c)
             {
-                var val = set.GetCombo(c.Name);
+                var val = int.Parse(c.Value);
                 ImGui.SetNextItemWidth(ImGui.CalcTextSize(c.Items[val]).X + 50 * Scale);
                 var openCombo = ImGui.BeginCombo(name, c.Items[val]);
                 ImGuiHelper.ReactPopup(key, command, Reset);
@@ -1204,7 +1215,7 @@ public partial class RotationConfigWindow : Window
                     {
                         if (ImGui.Selectable(c.Items[comboIndex]))
                         {
-                            set.SetValue(config.Name, comboIndex.ToString());
+                            config.Value = comboIndex.ToString();
                         }
                     }
                     ImGui.EndCombo();
@@ -1212,31 +1223,31 @@ public partial class RotationConfigWindow : Window
             }
             else if (config is RotationConfigBoolean b)
             {
-                bool val = set.GetBool(config.Name);
+                bool val = bool.Parse(config.Value);
 
                 if (ImGui.Checkbox(name, ref val))
                 {
-                    set.SetValue(config.Name, val.ToString());
+                    config.Value = val.ToString();
                 }
                 ImGuiHelper.ReactPopup(key, command, Reset);
             }
             else if (config is RotationConfigFloat f)
             {
-                float val = set.GetFloat(config.Name);
+                float val = float.Parse(config.Value);
                 ImGui.SetNextItemWidth(Scale * Searchable.DRAG_WIDTH);
 
                 if (f.UnitType == ConfigUnitType.Percent)
                 {
                     if (ImGui.SliderFloat(name, ref val, f.Min, f.Max, $"{val * 100:F1}{f.UnitType.ToSymbol()}"))
                     {
-                        set.SetValue(config.Name, val.ToString());
+                        config.Value = val.ToString();
                     }
                 }
                 else
                 {
                     if (ImGui.DragFloat(name, ref val, f.Speed, f.Min, f.Max, $"{val:F2}{f.UnitType.ToSymbol()}"))
                     {
-                        set.SetValue(config.Name, val.ToString());
+                        config.Value = val.ToString();
                     }
                 }
                 ImguiTooltips.HoveredTooltip(f.UnitType.Local());
@@ -1245,23 +1256,23 @@ public partial class RotationConfigWindow : Window
             }
             else if (config is RotationConfigString s)
             {
-                string val = set.GetString(config.Name);
+                string val = config.Value;
 
                 ImGui.SetNextItemWidth(ImGui.GetWindowWidth());
                 if (ImGui.InputTextWithHint(name, config.DisplayName, ref val, 128))
                 {
-                    set.SetValue(config.Name, val.ToString());
+                    config.Value = val;
                 }
                 ImGuiHelper.ReactPopup(key, command, Reset);
                 continue;
             }
             else if (config is RotationConfigInt i)
             {
-                int val = set.GetInt(config.Name);
+                int val = int.Parse(config.Value);
                 ImGui.SetNextItemWidth(Scale * Searchable.DRAG_WIDTH);
                 if (ImGui.DragInt(name, ref val, i.Speed, i.Min, i.Max))
                 {
-                    set.SetValue(config.Name, val.ToString());
+                    config.Value = val.ToString();
                 }
                 ImGuiHelper.ReactPopup(key, command, Reset);
             }
@@ -1539,10 +1550,7 @@ public partial class RotationConfigWindow : Window
 
                     ImGui.Text($"Can Use: {action.CanUse(out _, skipClippingCheck: true)} ");
                     ImGui.Text("IgnoreCastCheck:" + action.CanUse(out _, skipClippingCheck: true, skipCastingCheck: true).ToString());
-                    if (action.Target != null)
-                    {
-                        ImGui.Text("Target Name: " + action.Target.Value.Target?.Name ?? string.Empty);
-                    }
+                    ImGui.Text("Target Name: " + action.Target.Target?.Name ?? string.Empty);
                 }
                 catch
                 {

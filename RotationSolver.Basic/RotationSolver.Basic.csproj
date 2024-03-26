@@ -14,7 +14,6 @@
 	  <GenerateDocumentationFile>True</GenerateDocumentationFile>
 	  <EnforceCodeStyleInBuild>False</EnforceCodeStyleInBuild>
 	  <DalamudLibPath>$(AppData)\XIVLauncher\addon\Hooks\dev\</DalamudLibPath>
-	  <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
   <ItemGroup>
 	  <Reference Include="Dalamud">
@@ -70,7 +69,7 @@
 
 	  <ProjectReference Include="..\RotationSolver.SourceGenerators\RotationSolver.SourceGenerators.csproj" OutputItemType="Analyzer" ExcludeAssets="All" />
 
-	  <ProjectReference Include="..\XIVPainter-Archi\XIVPainter\XIVPainter.csproj" />
+	  <ProjectReference Include="..\XIVPainter\XIVPainter\XIVPainter.csproj" />
 
 	  <None Include="..\COPYING.LESSER">
 		<Pack>True</Pack>

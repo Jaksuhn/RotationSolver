@@ -221,10 +221,6 @@ internal class ControlWindow : CtrlWindow
                 ImGui.TextColored(color, str);
 
                 var help = command.Local();
-                if (ability != null)
-                {
-                    help = help + "\n" + $"({ability.Name})";
-                }
                 string baseId = "ImgButton" + command.ToString();
 
                 ImGui.SetCursorPosX(ImGui.GetCursorPosX() + Math.Max(0, strWidth / 2 - width / 2));

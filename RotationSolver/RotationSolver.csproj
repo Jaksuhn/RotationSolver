@@ -4,7 +4,6 @@
 	  <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	  <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
 	  <DalamudLibPath>$(AppData)\XIVLauncher\addon\Hooks\dev\</DalamudLibPath>
-	  <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
@@ -43,7 +42,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\ECommons\ECommons\ECommons.csproj" />
 		<ProjectReference Include="..\RotationSolver.Basic\RotationSolver.Basic.csproj" />
-		<ProjectReference Include="..\XIVPainter-Archi\XIVPainter\XIVPainter.csproj" />
+		<ProjectReference Include="..\XIVPainter\XIVPainter\XIVPainter.csproj" />
 		
 		<Using Include="Dalamud.Game.ClientState.Objects.Types" />
 		<Using Include="RotationSolver.Basic" />
@@ -58,11 +57,5 @@
 		<Using Include="Dalamud.Interface" />
 		<Using Include="ImGuiNET" />
 		<Using Include="Newtonsoft.Json" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <None Update="RotationSolver.yaml">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
 	</ItemGroup>
 </Project>

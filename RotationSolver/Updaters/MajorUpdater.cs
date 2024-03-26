@@ -171,6 +171,7 @@ internal static class MajorUpdater
 
         try
         {
+            TargetUpdater.UpdateTarget();
             StateUpdater.UpdateState();
 
             if (Service.Config.AutoLoadCustomRotations)
@@ -180,13 +181,9 @@ internal static class MajorUpdater
 
             RotationUpdater.UpdateRotation();
 
-            if (DataCenter.IsActivated())
-            {
-                TargetUpdater.UpdateTarget();
-                RaidTimeUpdater.UpdateTimeline();
-                ActionSequencerUpdater.UpdateActionSequencerAction();
-                ActionUpdater.UpdateNextAction();
-            }
+            RaidTimeUpdater.UpdateTimeline();
+            ActionSequencerUpdater.UpdateActionSequencerAction();
+            ActionUpdater.UpdateNextAction();
 
             RSCommands.UpdateRotationState();
             PainterManager.UpdateSettings();

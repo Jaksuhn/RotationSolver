@@ -361,7 +361,7 @@ internal static class TimelineDrawer
 
                 ImGui.SameLine();
 
-                if (ConditionDrawer.DrawDragFloat3(ConfigUnitType.Yalms, UiString.TimelinePosition.Local(), ref point, "Pos" + moveItem.GetHashCode(), "X", "Y", "Z", () => Player.Object?.Position ?? default))
+                if (ConditionDrawer.DrawDragFloat3(ConfigUnitType.Yalms, UiString.TimelinePosition.Local(), ref point, "Pos" + moveItem.GetHashCode() + i, "X", "Y", "Z", () => Player.Object?.Position ?? default))
                 {
                     moveItem.Points[i] = point;
                 }
@@ -979,8 +979,8 @@ internal static class TimelineDrawer
                 }
                 break;
 
+            case ObjectType.GameObject:
             case ObjectType.BattleCharactor:
-
                 ImGui.SetNextItemWidth(150 * Scale);
                 var name = getter.DataID;
                 if (ImGui.InputText("Data ID## " + getter.GetHashCode(), ref name, 256))

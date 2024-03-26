@@ -21,8 +21,7 @@ internal partial class Configs : IPluginConfiguration
         Extra = "Extra",
         Rotations = "Rotations",
         List = "List",
-        Debug = "Debug",
-        SecretParams = "SecretParams";
+        Debug = "Debug";
 
     public int Version { get; set; } = 8;
 
@@ -136,7 +135,7 @@ internal partial class Configs : IPluginConfiguration
     private static readonly bool _useMpPotions = false;
 
     [ConditionBool, UI("Draw the offset of melee on the screen",
-        Filter = SecretParams)]
+        Filter =UiOverlay)]
     private static readonly bool _drawMeleeOffset = true;
 
     [ConditionBool, UI("Show the target of the move action",
@@ -209,7 +208,7 @@ internal partial class Configs : IPluginConfiguration
         PvPFilter = JobFilterType.NoJob)]
     private static readonly bool _interruptibleMoreCheck = true;
 
-    [ConditionBool, UI("Use work task. (Experimental! Will cause crashes!!!)",
+    [ConditionBool, UI("Use work task for acceleration.",
         Filter = BasicParams)]
     private static readonly bool _useWorkTask = false;
 
@@ -392,6 +391,18 @@ internal partial class Configs : IPluginConfiguration
     [ConditionBool, UI("Healing the members with GCD if there is nothing to do in combat.",
         Filter = AutoActionCondition, Section = 1)]
     private static readonly bool _healWhenNothingTodo = true;
+
+    [ConditionBool, UI("Say hello to all users of Rotation Solver.",
+        Filter =BasicParams)]
+    private static readonly bool _sayHelloToAll = true;
+
+    [ConditionBool, UI("Say hello to the users of Rotation Solver.", Description = "It can only be disabled for users, not authors and contributors.\nIf you want to be greeted by other users, please DM ArchiTed in Discord Server with your Hash!",
+        Parent =nameof(SayHelloToAll))]
+    private static readonly bool _sayHelloToUsers = true;
+
+    [ConditionBool, UI("Just say hello once to the same user.",
+        Parent = nameof(SayHelloToAll))]
+    private static readonly bool _justSayHelloOnce = false;
 
     [ConditionBool, UI("Only Heal self When Not a healer", 
         Filter = AutoActionCondition, Section = 1,
@@ -698,7 +709,7 @@ internal partial class Configs : IPluginConfiguration
         PvEFilter = JobFilterType.Tank)]
     private readonly float _healthForAutoDefense = 1;
 
-    [LinkDescription($"https://raw.githubusercontent.com/{Service.USERNAME}/{Service.REPO}/{Service.BRANCH}/Images/HowAndWhenToClick.svg",
+    [LinkDescription($"https://raw.githubusercontent.com/{Service.USERNAME}/{Service.REPO}/main/Images/HowAndWhenToClick.svg",
         "This plugin helps you to use the right action during the combat. Here is a guide about the different options.")]
     [JobConfig, Range(0, 0.5f, ConfigUnitType.Seconds)]
     [UI("Action Ahead", Filter = BasicTimer)]
@@ -721,7 +732,7 @@ internal partial class Configs : IPluginConfiguration
     private readonly Dictionary<uint, ItemConfig> _rotationItemConfig = [];
 
     [JobChoiceConfig]
-    private readonly Dictionary<string, string> _rotationsConfigurations = [];
+    private readonly Dictionary<string, string> _rotationConfigurations = [];
 
     public Dictionary<uint, string> DutyRotationChoice { get; set; } = [];
 

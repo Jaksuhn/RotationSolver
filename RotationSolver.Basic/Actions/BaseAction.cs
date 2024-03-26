@@ -11,7 +11,7 @@ namespace RotationSolver.Basic.Actions;
 public class BaseAction : IBaseAction
 {
     /// <inheritdoc/>
-    public TargetResult? Target { get; set; } = null;
+    public TargetResult Target { get; set; } = new(Player.Object, [], null);
 
     /// <inheritdoc/>
     public TargetResult? PreviewTarget { get; private set; } = null;
@@ -142,7 +142,9 @@ public class BaseAction : IBaseAction
         if (!Cooldown.CooldownCheck(usedUp, onLastAbility, skipClippingCheck, gcdCountForAbility)) return false;
 
 
-        if (Setting.IsMeleeRange && IActionHelper.IsLastAction(IActionHelper.MovingActions)) return false; //No range actions after moving.
+        if (Setting.SpecialType is SpecialActionType.MeleeRange
+            && IActionHelper.IsLastAction(IActionHelper.MovingActions)) return false; //No range actions after moving.
+
         if (DataCenter.AverageTimeToKill < Config.TimeToKill) return false;
         if (DataCenter.TimeToUntargetable < Config.TimeToUntargetable) return false;
 
@@ -150,7 +152,7 @@ public class BaseAction : IBaseAction
         if (PreviewTarget == null) return false;
         if (!IBaseAction.ActionPreview)
         {
-            Target = PreviewTarget;
+            Target = PreviewTarget.Value;
         }
 
         return true;
@@ -173,9 +175,7 @@ public class BaseAction : IBaseAction
     /// <inheritdoc/>
     public unsafe bool Use()
     {
-        if (!Target.HasValue) return false;
-
-        var target = Target.Value;
+        var target = Target;
 
         var adjustId = AdjustedID;
         if (TargetInfo.IsTargetArea)
@@ -187,7 +187,8 @@ public class BaseAction : IBaseAction
 
             return ActionManager.Instance()->UseActionLocation(ActionType.Action, ID, Player.Object.ObjectId, &loc);
         }
-        else if (Svc.Objects.SearchById(target.Target?.ObjectId ?? GameObject.InvalidGameObjectId) == null)
+        else if (Svc.Objects.SearchById(target.Target?.ObjectId 
+            ?? Player.Object?.ObjectId ?? GameObject.InvalidGameObjectId) == null)
         {
             return false;
         }
