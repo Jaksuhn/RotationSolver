@@ -209,7 +209,7 @@ internal partial class Configs : IPluginConfiguration
         PvPFilter = JobFilterType.NoJob)]
     private static readonly bool _interruptibleMoreCheck = true;
 
-    [ConditionBool, UI("Use work task for acceleration.",
+    [ConditionBool, UI("Use work task (EXPERIMENTAL! WILL CAUSE CRASHES!!)",
         Filter = BasicParams)]
     private static readonly bool _useWorkTask = false;
 
