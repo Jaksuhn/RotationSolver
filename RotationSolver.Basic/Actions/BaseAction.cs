@@ -37,7 +37,8 @@ public class BaseAction : IBaseAction
     public uint AdjustedID => Info.AdjustedID;
 
     /// <inheritdoc/>
-    public float AnimationLockTime => Info.AnimationLockTime;
+    [Obsolete("Use ActionManagerHelper.GetCurrentAnimationLock()")]
+    public float AnimationLockTime => ActionManagerHelper.GetCurrentAnimationLock();
 
     /// <inheritdoc/>
     public uint SortKey => Cooldown.CoolDownGroup;

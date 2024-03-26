@@ -2557,6 +2557,7 @@ public partial class RotationConfigWindow : Window
         ImGui.Text("Ability Remain: " + DataCenter.AbilityRemain.ToString());
         ImGui.Text("Action Remain: " + DataCenter.ActionRemain.ToString());
         ImGui.Text("Weapon Remain: " + DataCenter.WeaponRemain.ToString());
+        ImGui.Text("Animation Lock Delay: " + ActionManagerHelper.GetCurrentAnimationLock().ToString());
     }
 
     private static void DrawLastAction()
