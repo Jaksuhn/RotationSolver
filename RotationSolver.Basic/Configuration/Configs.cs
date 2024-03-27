@@ -39,7 +39,7 @@ internal partial class Configs : IPluginConfiguration
 
     [ConditionBool, UI("Show RS logo animation",
         Filter = UiWindows)]
-    private static readonly bool _drawIconAnimation = true;
+    private static readonly bool _drawIconAnimation = false;
 
     [ConditionBool, UI("Auto turn off when player is moving between areas.",
         Filter =BasicAutoSwitch)]
@@ -68,7 +68,7 @@ internal partial class Configs : IPluginConfiguration
 
     [ConditionBool, UI("Audio notification for when the status changes",
         Filter =UiInformation)]
-    private static readonly bool _sayOutStateChanged = true;
+    private static readonly bool _sayOutStateChanged = false;
 
     [ConditionBool, UI("Display plugin status on server info",
         Filter =UiInformation)]
@@ -80,10 +80,10 @@ internal partial class Configs : IPluginConfiguration
 
     [ConditionBool, UI("Display plugin status on toast",
         Filter =UiInformation)]
-    private static readonly bool _showInfoOnToast = true;
+    private static readonly bool _showInfoOnToast = false;
 
     [ConditionBool, UI("Lock the movement when casting or when doing some actions.", Filter = Extra)]
-    private static readonly bool _poslockCasting = true;
+    private static readonly bool _poslockCasting = false;
 
     [UI("", Action = ActionID.PassageOfArmsPvE, Parent = nameof(PoslockCasting))]
     public bool  PosPassageOfArms { get; set; } = false;
@@ -137,15 +137,15 @@ internal partial class Configs : IPluginConfiguration
 
     [ConditionBool, UI("Draw the offset of melee on the screen",
         Filter =UiOverlay)]
-    private static readonly bool _drawMeleeOffset = true;
+    private static readonly bool _drawMeleeOffset = false;
 
     [ConditionBool, UI("Show the target of the move action",
         Filter =UiOverlay)]
-    private static readonly bool _showMoveTarget = true;
+    private static readonly bool _showMoveTarget = false;
 
     [ConditionBool, UI("Show Target",
         Filter = UiOverlay)]
-    private static readonly bool _showTarget = true;
+    private static readonly bool _showTarget = false;
 
     [ConditionBool, UI("Show the target's time to kill.",
         Parent = nameof(ShowTarget))]
@@ -165,14 +165,14 @@ internal partial class Configs : IPluginConfiguration
 
     [ConditionBool, UI ("Show the hostile target icon",
         Filter = UiOverlay)]
-    private static readonly bool _showHostilesIcons = true;
+    private static readonly bool _showHostilesIcons = false;
 
     [ConditionBool, UI ("Teaching mode", Filter =UiOverlay)]
-    private static readonly bool _teachingMode = true;
+    private static readonly bool _teachingMode = false;
 
     [ConditionBool, UI("Display UI Overlay", Description = "This top window is used to display some extra information on your game window, such as target's positional, target and sub-target, etc.",
         Filter = UiOverlay)]
-    private static readonly bool _useOverlayWindow = true;
+    private static readonly bool _useOverlayWindow = false;
 
     [ConditionBool, UI("Simulate the effect of pressing abilities",
         Filter =UiInformation)]
@@ -254,7 +254,7 @@ internal partial class Configs : IPluginConfiguration
 
     [ConditionBool, UI("Only show these windows if there are enemies in or in duty",
         Filter =UiWindows)]
-    private static readonly bool _onlyShowWithHostileOrInDuty = true;
+    private static readonly bool _onlyShowWithHostileOrInDuty = false;
 
     [ConditionBool, UI("Show Control Window",
         Filter =UiWindows)]
@@ -265,7 +265,7 @@ internal partial class Configs : IPluginConfiguration
     private static readonly bool _isControlWindowLock = false;
 
     [ConditionBool, UI("Show Next Action Window", Filter  = UiWindows)]
-    private static readonly bool _showNextActionWindow = true;
+    private static readonly bool _showNextActionWindow = false;
 
     [ConditionBool, UI("No Inputs", Parent = nameof(ShowNextActionWindow))]
     private static readonly bool _isInfoWindowNoInputs = false;
@@ -291,7 +291,7 @@ internal partial class Configs : IPluginConfiguration
 
     [ConditionBool, UI("Auto load rotations",
         Filter = Rotations)]
-    private static readonly bool _autoLoadCustomRotations = false;
+    private static readonly bool _autoLoadCustomRotations = true;
 
     [ConditionBool, UI("Target Fate priority",
         Filter = TargetConfig, Section = 1)]
@@ -308,7 +308,7 @@ internal partial class Configs : IPluginConfiguration
 
     [ConditionBool, UI("Display do action feedback on toast",
         Filter =UiInformation)]
-    private static readonly bool _showToastsAboutDoAction = true;
+    private static readonly bool _showToastsAboutDoAction = false;
 
     [ConditionBool, UI("Use AoE actions", Filter = AutoActionUsage)]
     private static readonly bool _useAOEAction = true;
@@ -380,14 +380,14 @@ internal partial class Configs : IPluginConfiguration
     private static readonly bool _autoCloseChestWindow = true;
 
     [ConditionBool, UI("Show RS state icon", Filter = UiOverlay)]
-    private static readonly bool _showStateIcon = true;
+    private static readonly bool _showStateIcon = false;
 
     [ConditionBool, UI("Show beneficial AoE locations.", Filter = UiOverlay)]
-    private static readonly bool _showBeneficialPositions = true;
+    private static readonly bool _showBeneficialPositions = false;
 
     [ConditionBool, UI("Hide all warnings",
         Filter = UiInformation)]
-    private static readonly bool _hideWarning = false;
+    private static readonly bool _hideWarning = true;
 
     [ConditionBool, UI("Healing the members with GCD if there is nothing to do in combat.",
         Filter = AutoActionCondition, Section = 1)]
@@ -400,7 +400,7 @@ internal partial class Configs : IPluginConfiguration
 
     [ConditionBool, UI("Display toggle action feedback on chat",
         Filter =UiInformation)]
-    private static readonly bool _showToggledActionInChat = true;
+    private static readonly bool _showToggledActionInChat = false;
 
     [UI("Use additional conditions", Filter = BasicParams)]
     public bool UseAdditionalConditions { get; set; } = false;
@@ -521,7 +521,7 @@ internal partial class Configs : IPluginConfiguration
     [Range(0, 3, ConfigUnitType.Seconds, 0.002f)]
     public Vector2 HealDelay { get; set; } = new(0.5f, 1);
 
-    [UI("The starting when abilities will be used before finishing the countdown",
+    [UI("The time ahead of countdown finishing that abiltiies are used. 0.10 ",
         Filter =BasicTimer, Section = 1, PvPFilter = JobFilterType.NoJob)]
     [Range(0, 0.7f, ConfigUnitType.Seconds, 0.002f)]
     public float CountDownAhead { get; set; } = 0.4f;
