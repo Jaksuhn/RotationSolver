@@ -402,7 +402,7 @@ internal partial class Configs : IPluginConfiguration
         Filter =UiInformation)]
     private static readonly bool _showToggledActionInChat = false;
 
-    [ConditionBool, UI("NoClippy/Bossmod Action Check.",
+    [ConditionBool, UI("Skip ping check. (For users of Noclippy/Bossmod Action Tweaks)",
         Filter = BasicTimer, Section = 2)]
     private static readonly bool _noPingCheck = false;
 
