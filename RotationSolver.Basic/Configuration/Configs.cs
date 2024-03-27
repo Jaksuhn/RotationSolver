@@ -402,6 +402,10 @@ internal partial class Configs : IPluginConfiguration
         Filter =UiInformation)]
     private static readonly bool _showToggledActionInChat = false;
 
+    [ConditionBool, UI("NoClippy/Bossmod Action Check.",
+        Filter = BasicTimer, Section = 2)]
+    private static readonly bool _noPingCheck = false;
+
     [UI("Use additional conditions", Filter = BasicParams)]
     public bool UseAdditionalConditions { get; set; } = false;
 
@@ -571,11 +575,6 @@ internal partial class Configs : IPluginConfiguration
         Filter = TargetConfig, Section = 2)]
     [Range(0, 30, ConfigUnitType.Yalms, 1f)]
     public float DistanceForMoving { get; set; } = 1.2f;
-
-    [UI("The max ping that RS can get to before skipping to the next action.",
-        Filter = BasicTimer)]
-    [Range(0.01f, 0.5f, ConfigUnitType.Seconds, 0.002f)]
-    public float MaxPing { get; set; } = 0.2f;
 
     [UI("Stop healing when time to kill is lower then...", Parent = nameof(UseHealWhenNotAHealer))]
     [Range(0, 30, ConfigUnitType.Seconds, 0.02f)]

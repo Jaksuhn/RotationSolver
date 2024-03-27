@@ -293,7 +293,7 @@ internal static class ActionUpdater
         var nextAction = NextAction;
         if (nextAction == null) return false;
 
-        var timeToNext = DataCenter.ActionRemain;
+        var timeToNext = DataCenter.AnimationLocktime;
 
         ////No time to use 0gcd
         //if (timeToNext + nextAction.AnimationLockTime
